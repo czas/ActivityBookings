@@ -10,9 +10,11 @@ import { Activity } from '../shared/models/activity.type';
 export class BookingsComponent {
   public activity: Activity = ACTIVITIES[3];
 
-  public currentParticipants: number = 3;
+  public currentParticipants: number = 2;
 
-  public newParticipants: number = 1;
+  public newParticipants: number = 0;
+
+  public newParticipantsData: any[] = [];
 
   public totalParticipants: number = this.currentParticipants + this.newParticipants;
 
@@ -21,8 +23,20 @@ export class BookingsComponent {
 
   public booked: boolean = false;
 
+  public activityRangeMessage: string = `The activity is available for ${this.activity.minParticipants} to ${this.activity.maxParticipants} participants`;
+
   public getDisableBookingButton(): boolean {
-    return this.booked || this.newParticipants === 0;
+    return this.newParticipants === 0;
+  }
+
+  public getBookedMessage(): string {
+    return `Booked for ${this.newParticipants} participants for ${
+      this.activity.price * this.newParticipants
+    } dollars`;
+  }
+
+  public getParticipantsMessage(participant: any): string {
+    return `Participant ${participant.id}: ${participant.name} (${participant.age} years old)`;
   }
 
   public onNewParticipantsChange(event: any) {
@@ -30,6 +44,14 @@ export class BookingsComponent {
     const value = input.value;
     this.newParticipants = parseInt(value, 10);
     this.totalParticipants = this.currentParticipants + this.newParticipants;
+    this.newParticipantsData = [];
+    for (let i = 0; i < this.newParticipants; i++) {
+      this.newParticipantsData.push({
+        id: i + 1,
+        name: 'Name ' + (i + 1),
+        age: 2 * i + 7,
+      });
+    }
   }
 
   public onBookClick() {
@@ -39,7 +61,7 @@ export class BookingsComponent {
       return;
     }
 
-    if (this.totalParticipants > this.activity.minParticipants) {
+    if (this.totalParticipants >= this.activity.minParticipants) {
       this.activity.status = 'confirmed';
       return;
     }
