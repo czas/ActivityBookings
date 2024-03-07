@@ -8,23 +8,20 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export class FooterComponent {
   author = {
-    name: 'Carlos Zas',
+    name: 'Carlos',
     url: 'https://github.com/czas',
   };
 
   year = '';
 
   constructor() {
-    console.log('construir footer');
     this.year = this.getYear().toLocaleString();
+    this.author = { ...this.author, name: 'Carlos Zas' };
   }
 
   getYear() {
-    console.log('calculando año');
     return new Date().getFullYear();
   }
 
-  onAcceptCookiesClick() {
-    console.log('cookies accepted');
-  }
+  onAcceptCookiesClick() {}
 }
