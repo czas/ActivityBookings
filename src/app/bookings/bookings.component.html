@@ -28,7 +28,11 @@
       </button>
     </div>
     <div *ngIf="booked">
+      <!-- Mensaje desde una función, se está reevaluando continuamente -->
       <p>{{ getBookedMessage() }}</p>
+
+      <!-- Mensaje que se genera una vez realizas el click en onBookClick() -->
+      <p>{{ bookedMessage }}</p>
       <ul>
         <li *ngFor="let participant of newParticipantsData">
           {{ participant.name }} ({{ participant.age }} years)

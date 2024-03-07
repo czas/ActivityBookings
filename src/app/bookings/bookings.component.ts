@@ -25,6 +25,8 @@ export class BookingsComponent {
 
   public activityRangeMessage: string = `The activity is available for ${this.activity.minParticipants} to ${this.activity.maxParticipants} participants`;
 
+  public bookedMessage: string = '';
+
   public getDisableBookingButton(): boolean {
     return this.newParticipants === 0;
   }
@@ -56,6 +58,9 @@ export class BookingsComponent {
 
   public onBookClick() {
     this.booked = true;
+    this.bookedMessage = `Booked for ${this.newParticipants} participants for ${
+      this.activity.price * this.newParticipants
+    } dollars`;
     if (this.totalParticipants === this.activity.maxParticipants) {
       this.activity.status = 'sold-out';
       return;
