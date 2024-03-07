@@ -10,7 +10,7 @@ import { Activity } from '../shared/models/activity.type';
 export class BookingsComponent {
   public activity: Activity = ACTIVITIES[3];
 
-  public currentParticipants: number = 2;
+  public currentParticipants: number = 3;
 
   public newParticipants: number = 1;
 
