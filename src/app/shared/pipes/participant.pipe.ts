@@ -6,6 +6,6 @@ import { Participant } from '../models/participant.type';
 })
 export class ParticipantPipe implements PipeTransform {
   transform(participant: Participant, ...args: unknown[]): string {
-    return `${participant.name} tiene ${participant.age} años`;
+    return `Participant ${participant.id}: ${participant.name} (${participant.age} years old)`;
   }
 }
