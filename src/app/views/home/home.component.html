@@ -1,0 +1,8 @@
+<h2>We have {{ activities.length }} activities</h2>
+<div *ngFor="let activity of activities">
+  <span>
+    <a [routerLink]="['/', 'bookings', activity.slug]">{{ activity.name }}</a>
+  </span>
+  - <span>({{ activity.location }})</span> -
+  <span>{{ activity.date | date }}</span>
+</div>

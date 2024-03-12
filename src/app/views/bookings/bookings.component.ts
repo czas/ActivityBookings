@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ACTIVITIES } from '../shared/models/activities.data';
-import { Activity } from '../shared/models/activity.type';
+import { ActivatedRoute } from '@angular/router';
+import { ACTIVITIES } from '../../shared/models/activities.data';
+import { Activity } from '../../shared/models/activity.type';
 
 @Component({
   selector: 'lab-bookings',
   templateUrl: './bookings.component.html',
   styleUrls: ['./bookings.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingsComponent {
   public activity: Activity = ACTIVITIES[3];
@@ -40,6 +41,12 @@ export class BookingsComponent {
 
   public getParticipantsMessage(participant: any): string {
     return `Participant ${participant.id}: ${participant.name} (${participant.age} years old)`;
+  }
+
+  public activitySlug: string = '';
+
+  constructor(route: ActivatedRoute) {
+    this.activitySlug = route.snapshot.params['slug'];
   }
 
   public onNewParticipantsChange(event: any) {
