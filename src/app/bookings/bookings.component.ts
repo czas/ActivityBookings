@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ACTIVITIES } from '../shared/models/activities.data';
 import { Activity } from '../shared/models/activity.type';
 
@@ -6,6 +6,7 @@ import { Activity } from '../shared/models/activity.type';
   selector: 'lab-bookings',
   templateUrl: './bookings.component.html',
   styleUrls: ['./bookings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BookingsComponent {
   public activity: Activity = ACTIVITIES[3];

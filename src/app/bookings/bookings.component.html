@@ -34,9 +34,7 @@
       <!-- Mensaje que se genera una vez realizas el click en onBookClick() -->
       <p>{{ bookedMessage }}</p>
       <ul>
-        <li *ngFor="let participant of newParticipantsData">
-          {{ participant.name }} ({{ participant.age }} years)
-        </li>
+        <li *ngFor="let p of newParticipantsData">{{ p | participant }}</li>
       </ul>
     </div>
   </footer>
