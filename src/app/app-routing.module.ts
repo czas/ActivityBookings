@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BookingsComponent } from './views/bookings/bookings.component';
 
 const routes: Routes = [
   {
@@ -9,7 +8,8 @@ const routes: Routes = [
   },
   {
     path: 'bookings/:slug',
-    component: BookingsComponent,
+    loadChildren: () =>
+      import('./views/bookings/bookings.module').then((m) => m.BookingsModule),
   },
   {
     path: 'auth/login',
