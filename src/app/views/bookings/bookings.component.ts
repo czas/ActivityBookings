@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ACTIVITIES } from '../../shared/models/activities.data';
-import { Activity } from '../../shared/models/activity.type';
+import { Activity, NULL_ACTIVITY } from '../../shared/models/activity.type';
 
 @Component({
   selector: 'lab-bookings',
@@ -10,7 +10,7 @@ import { Activity } from '../../shared/models/activity.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingsComponent {
-  public activity: Activity = ACTIVITIES[3];
+  public activity: Activity = NULL_ACTIVITY;
 
   public currentParticipants: number = 2;
 
@@ -29,6 +29,15 @@ export class BookingsComponent {
 
   public bookedMessage: string = '';
 
+  // public activitySlug: string = '';
+
+  constructor(route: ActivatedRoute) {
+    // this.activitySlug = route.snapshot.params['slug'];
+    this.activity =
+      ACTIVITIES.find((activity) => activity.slug === route.snapshot.params['slug']) ||
+      NULL_ACTIVITY;
+  }
+
   public getDisableBookingButton(): boolean {
     return this.newParticipants === 0;
   }
@@ -41,12 +50,6 @@ export class BookingsComponent {
 
   public getParticipantsMessage(participant: any): string {
     return `Participant ${participant.id}: ${participant.name} (${participant.age} years old)`;
-  }
-
-  public activitySlug: string = '';
-
-  constructor(route: ActivatedRoute) {
-    this.activitySlug = route.snapshot.params['slug'];
   }
 
   public onNewParticipantsChange(event: any) {
