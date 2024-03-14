@@ -52,6 +52,11 @@ export class BookingsComponent {
     return `Participant ${participant.id}: ${participant.name} (${participant.age} years old)`;
   }
 
+  public getAtivityRangeMessage(): string {
+    // Se podría hacer un pipe (como el participant.pipe.ts)
+    return `The activity is available for ${this.activity.minParticipants} to ${this.activity.maxParticipants} participants`;
+  }
+
   public onNewParticipantsChange(event: any) {
     const input: HTMLInputElement = event.target;
     const value = input.value;
