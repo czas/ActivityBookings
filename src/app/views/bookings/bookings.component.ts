@@ -1,6 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ACTIVITIES } from '../../shared/models/activities.data';
+import { Observable, map, tap } from 'rxjs';
 import { Activity, NULL_ACTIVITY } from '../../shared/models/activity.type';
 
 @Component({
@@ -10,7 +11,10 @@ import { Activity, NULL_ACTIVITY } from '../../shared/models/activity.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingsComponent {
+  private url: string = 'http://localhost:3000/activities';
+
   public activity: Activity = NULL_ACTIVITY;
+  public activity$: Observable<Activity>;
 
   public currentParticipants: number = 2;
 
@@ -29,13 +33,13 @@ export class BookingsComponent {
 
   public bookedMessage: string = '';
 
-  // public activitySlug: string = '';
-
-  constructor(route: ActivatedRoute) {
-    // this.activitySlug = route.snapshot.params['slug'];
-    this.activity =
-      ACTIVITIES.find((activity) => activity.slug === route.snapshot.params['slug']) ||
-      NULL_ACTIVITY;
+  constructor(route: ActivatedRoute, private http: HttpClient) {
+    const activitySlug = route.snapshot.params['slug'];
+    const slugUrl = `${this.url}?slug=${activitySlug}`;
+    this.activity$ = this.http.get<Activity[]>(slugUrl).pipe(
+      map((activities: Activity[]) => activities[0]),
+      tap((activity: Activity) => (this.activity = activity))
+    );
   }
 
   public getDisableBookingButton(): boolean {
