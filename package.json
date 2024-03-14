@@ -7,9 +7,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "api": "json-server-auth ../db/prod/d.json -r ../db/r.json",
-    "api:reset": "copyfiles -f ../db/reset/d.json ../db/prod && npm run api",
-    "api:seed": "copyfiles -f ../db/seed/d.json ../db/prod && npm run api"
+    "api": "json-server-auth ./db/prod/d.json -r ./db/r.json",
+    "api:reset": "copyfiles -f ./db/reset/d.json ./db/prod && npm run api",
+    "api:seed": "copyfiles -f ./db/seed/d.json ./db/prod && npm run api"
   },
   "private": true,
   "dependencies": {
