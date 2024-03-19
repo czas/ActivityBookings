@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, catchError, map, of, tap } from 'rxjs';
 import { Activity, NULL_ACTIVITY } from '../../shared/models/activity.type';
 
 @Component({
@@ -37,7 +37,8 @@ export class BookingsComponent {
     const activitySlug = route.snapshot.params['slug'];
     const slugUrl = `${this.url}?slug=${activitySlug}`;
     this.activity$ = this.http.get<Activity[]>(slugUrl).pipe(
-      map((activities: Activity[]) => activities[0]),
+      map((activities: Activity[]) => activities[0] || NULL_ACTIVITY),
+      catchError(() => of(NULL_ACTIVITY)),
       tap((activity: Activity) => (this.activity = activity))
     );
   }
