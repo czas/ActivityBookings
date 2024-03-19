@@ -16,6 +16,9 @@ export class BookingsComponent {
   public activity: Activity = NULL_ACTIVITY;
   public activity$: Observable<Activity>;
 
+  public bookingSaved$: Observable<boolean> = of(false);
+  public activitySaved$: Observable<boolean> = of(false);
+
   public currentParticipants: number = 2;
 
   public newParticipants: number = 0;
@@ -78,18 +81,44 @@ export class BookingsComponent {
   }
 
   public onBookClick() {
-    this.booked = true;
-    this.bookedMessage = `Booked for ${this.newParticipants} participants for ${
-      this.activity.price * this.newParticipants
-    } dollars`;
-    if (this.totalParticipants === this.activity.maxParticipants) {
-      this.activity.status = 'sold-out';
-      return;
-    }
-
-    if (this.totalParticipants >= this.activity.minParticipants) {
-      this.activity.status = 'confirmed';
-      return;
-    }
+    const newBooking = {
+      id: 0,
+      activityId: this.activity.id,
+      userId: 0,
+      date: new Date(),
+      participants: this.newParticipants,
+      payment: {
+        method: 'none',
+        amount: this.activity.price * this.newParticipants,
+        status: 'none',
+      },
+    };
+    console.log('Nueva reserva', newBooking);
+    this.bookingSaved$ = this.http
+      .post('http://localhost:3000/bookings', newBooking)
+      .pipe(
+        tap((result) => {
+          console.log('Respuesta recibida', result);
+          console.log('Reservada actividad', this.totalParticipants);
+          this.booked = true;
+          this.bookedMessage = `Booked ${this.newParticipants} participants for ${
+            this.activity.price * this.newParticipants
+          } dollars`;
+          if (this.totalParticipants === this.activity.maxParticipants) {
+            this.activity.status = 'sold-out';
+          }
+          if (this.totalParticipants >= this.activity.minParticipants) {
+            this.activity.status = 'confirmed';
+          }
+          this.activitySaved$ = this.http
+            .put(`${this.url}/${this.activity.id}`, this.activity)
+            .pipe(map(() => true));
+        }),
+        map(() => true),
+        catchError((error) => {
+          console.error('Error al reservar', error);
+          return of(false);
+        })
+      );
   }
 }
