@@ -1,14 +1,9 @@
-<article *ngIf="activities$ | async as activities">
-  <header>
-    <h2>We have {{ activities.length }} activities</h2>
-  </header>
-  <main>
-    <div *ngFor="let activity of activities">
-      <span>
-        <a [routerLink]="['/', 'bookings', activity.slug]">{{ activity.name }}</a>
-      </span>
-      - <span>({{ activity.location }})</span> -
-      <span>{{ activity.date | date }}</span>
-    </div>
-  </main>
-</article>
+<ng-container *ngIf="activities$ | async as activities">
+  <lab-activities
+    [activities]="activities"
+    [favorites]="favorites"
+    (toggleFavorite)="onToggleFavorite($event)"></lab-activities>
+  <lab-footer
+    [activitiesCount]="activities.length"
+    [favoritesCount]="favorites.length"></lab-footer>
+</ng-container>

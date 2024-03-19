@@ -1,0 +1,20 @@
+<article *ngIf="activities">
+  <header>
+    <h2>We have {{ activities.length }} activities</h2>
+  </header>
+  <main>
+    <div *ngFor="let activity of activities">
+      <span
+        ><input
+          type="checkbox"
+          [checked]="favorites.includes(activity.slug)"
+          (click)="toggleFavorite.emit(activity.slug)"
+      /></span>
+      <span>
+        <a [routerLink]="['/', 'bookings', activity.slug]">{{ activity.name }}</a>
+      </span>
+      - <span>({{ activity.location }})</span> -
+      <span>{{ activity.date | date }}</span>
+    </div>
+  </main>
+</article>
