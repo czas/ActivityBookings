@@ -5,6 +5,12 @@
     </ul>
     <ul>
       <li>
+        My favorites
+        <sup>
+          <mark>{{ favoritesCount$ | async }}</mark>
+        </sup>
+      </li>
+      <li>
         <a [routerLink]="['/', 'auth', 'login']">Login</a>
       </li>
       <li>
