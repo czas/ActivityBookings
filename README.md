@@ -13,3 +13,6 @@ npm start
 # start a fake API server
 npm run api:seed
 ```
+
+> [!NOTE]
+> Angular Basics Classic Course - Project in progress
